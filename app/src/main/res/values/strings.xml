@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name" translatable="false">calcul_mental</string>
+
+    <string name="titre_menu_principal">Menu principal</string>
+    <string name="text_bouton_calculatrice">Jouer</string>
+    <string name="text_bouton_historique">Highscores</string>
+
+    <string name="format_operation" translatable="false">%1$d %2$s %3$d = ?</string>
+    <string name="format_boss_grande_operation" translatable="false">%1$d + %2$d - %3$d × %4$d = ?</string>
+    <string name="format_boss_inconnu" translatable="false">\? + %1$d = %2$d</string>
+    <string name="format_boss_operation_dans_operation" translatable="false">x + y = ?\nx = %1$d + %2$d\ny = %3$d × %4$d</string>
+
+    <string name="format_vies">Vies : %1$d</string>
+    <string name="format_score">Score : %1$d</string>
+    <string name="format_niveau">Niveau : %1$d</string>
+    <string name="format_vies_preview">Vies : 3</string>
+    <string name="format_score_preview">Score : 0</string>
+    <string name="format_niveau_preview">Niveau : 1</string>
+    <string name="format_timer">Temps : %1$d s</string>
+    <string name="format_timer_preview">Temps : 20 s</string>
+    <string name="hint_reponse">Votre réponse</string>
+    <string name="bouton_valider">Valider</string>
+    <string name="bouton_passer">Passer</string>
+    <string name="erreur_reponse_vide">Veuillez saisir une réponse.</string>
+    <string name="erreur_reponse_invalide">Réponse invalide.</string>
+    <string name="reponse_correcte">Bonne réponse !</string>
+    <string name="reponse_fausse">Mauvaise réponse. La bonne réponse était %1$d.</string>
+    <string name="temps_ecoule">Temps écoulé ! Vous perdez une vie.</string>
+    <string name="titre_fin_partie">Partie terminée</string>
+    <string name="message_fin_partie">Votre score est de %1$d. Entrez votre nom pour l’enregistrer.</string>
+    <string name="hint_nom_joueur">Nom du joueur</string>
+    <string name="bouton_enregistrer">Enregistrer</string>
+    <string name="bouton_rejouer">Rejouer</string>
+    <string name="nom_anonyme">Anonyme</string>
+    <string name="menu_nouvelle_partie">Nouvelle partie</string>
+
+    <string name="message_debut_partie">Préparez-vous !</string>
+    <string name="message_vie_perdue">Vous perdez un cœur.</string>
+    <string name="message_level_up">LEVEL UP ! La difficulté augmente.</string>
+    <string name="message_entree_boss">BOSS LEVEL !</string>
+    <string name="message_boss_vaincu">Boss vaincu !</string>
+    <string name="message_round_suivant">Round suivant...</string>
+    <string name="boss_vaincu_coeur">Boss vaincu : +1 cœur !</string>
+    <string name="format_pause_round">Cœurs : %1$s\nNiveau actuel : %2$d\nDifficulté : %3$d</string>
+    <string name="message_type_operation">Prochaine opération : %1$s</string>
+    <string name="message_type_boss">Prochaine opération : Boss</string>
+    <string name="operation_additionne">additionne</string>
+    <string name="operation_soustrait">soustrait</string>
+    <string name="operation_multiplie">multiplie</string>
+    <string name="operation_divise">divise</string>
+
+    <string name="titre_highscores">Top 10 highscores</string>
+    <string name="aucun_score">Aucun score enregistré pour le moment.</string>
+    <string name="format_ligne_score">%1$d. %2$s — %3$d</string>
+    <string name="bouton_retour_menu">Retour au menu</string>
+
+    <string name="text_bouton0" translatable="false">0</string>
+    <string name="text_bouton1" translatable="false">1</string>
+    <string name="text_bouton2" translatable="false">2</string>
+    <string name="text_bouton3" translatable="false">3</string>
+    <string name="text_bouton4" translatable="false">4</string>
+    <string name="text_bouton5" translatable="false">5</string>
+    <string name="text_bouton6" translatable="false">6</string>
+    <string name="text_bouton7" translatable="false">7</string>
+    <string name="text_bouton8" translatable="false">8</string>
+    <string name="text_bouton9" translatable="false">9</string>
+    <string name="text_bouton_add" translatable="false">+</string>
+    <string name="text_bouton_substract" translatable="false">-</string>
+    <string name="text_bouton_multiply" translatable="false">x</string>
+    <string name="text_bouton_divide" translatable="false">/</string>
+</resources>

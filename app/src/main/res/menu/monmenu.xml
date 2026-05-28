@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_vies"
+        android:enabled="false"
+        android:title="@string/format_vies_preview"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_niveau"
+        android:enabled="false"
+        android:title="@string/format_niveau_preview"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_score"
+        android:enabled="false"
+        android:title="@string/format_score_preview"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_timer"
+        android:enabled="false"
+        android:title="@string/format_timer_preview"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_nouvelle_partie"
+        android:title="@string/menu_nouvelle_partie" />
+
+    <item
+        android:id="@+id/menu_highscores"
+        android:title="@string/text_bouton_historique" />
+</menu>

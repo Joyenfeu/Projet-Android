@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="titre_menu_principal">Hauptmenü</string>
+    <string name="text_bouton_calculatrice">Spielen</string>
+    <string name="text_bouton_historique">Bestenliste</string>
+
+    <string name="format_vies">Leben: %1$d</string>
+    <string name="format_score">Punkte: %1$d</string>
+    <string name="format_niveau">Level: %1$d</string>
+    <string name="format_vies_preview">Leben: 3</string>
+    <string name="format_score_preview">Punkte: 0</string>
+    <string name="format_niveau_preview">Level: 1</string>
+    <string name="format_timer">Zeit: %1$d s</string>
+    <string name="format_timer_preview">Zeit: 20 s</string>
+    <string name="hint_reponse">Deine Antwort</string>
+    <string name="bouton_valider">Bestätigen</string>
+    <string name="bouton_passer">Überspringen</string>
+    <string name="erreur_reponse_vide">Bitte gib eine Antwort ein.</string>
+    <string name="erreur_reponse_invalide">Ungültige Antwort.</string>
+    <string name="reponse_correcte">Richtige Antwort!</string>
+    <string name="reponse_fausse">Falsche Antwort. Die richtige Antwort war %1$d.</string>
+    <string name="temps_ecoule">Zeit abgelaufen! Du verlierst ein Leben.</string>
+    <string name="titre_fin_partie">Spiel beendet</string>
+    <string name="message_fin_partie">Deine Punktzahl ist %1$d. Gib deinen Namen ein, um sie zu speichern.</string>
+    <string name="hint_nom_joueur">Spielername</string>
+    <string name="bouton_enregistrer">Speichern</string>
+    <string name="bouton_rejouer">Nochmals spielen</string>
+    <string name="nom_anonyme">Anonym</string>
+    <string name="menu_nouvelle_partie">Neues Spiel</string>
+
+    <string name="message_debut_partie">Mach dich bereit!</string>
+    <string name="message_vie_perdue">Du verlierst ein Herz.</string>
+    <string name="message_level_up">LEVEL UP! Die Schwierigkeit steigt.</string>
+    <string name="message_entree_boss">BOSS-LEVEL!</string>
+    <string name="message_boss_vaincu">Boss besiegt!</string>
+    <string name="message_round_suivant">Nächste Runde...</string>
+    <string name="boss_vaincu_coeur">Boss besiegt: +1 Herz!</string>
+    <string name="format_pause_round">Herzen: %1$s\nAktuelles Level: %2$d\nSchwierigkeit: %3$d</string>
+    <string name="message_type_operation">Nächste Operation: %1$s</string>
+    <string name="message_type_boss">Nächste Operation: Boss</string>
+    <string name="operation_additionne">addieren</string>
+    <string name="operation_soustrait">subtrahieren</string>
+    <string name="operation_multiplie">multiplizieren</string>
+    <string name="operation_divise">dividieren</string>
+
+    <string name="titre_highscores">Top 10 Bestenliste</string>
+    <string name="aucun_score">Noch keine Punkte gespeichert.</string>
+    <string name="format_ligne_score">%1$d. %2$s — %3$d</string>
+    <string name="bouton_retour_menu">Zurück zum Menü</string>
+</resources>
