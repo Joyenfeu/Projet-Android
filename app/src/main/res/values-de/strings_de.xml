@@ -58,6 +58,9 @@
     <string name="operation_additionne">addieren</string>
     <string name="operation_soustrait">subtrahieren</string>
     <string name="operation_multiplie">multiplizieren</string>
+    <string name="annonce_boss_longue_operation">Boss: lange Aufgabe</string>
+    <string name="annonce_boss_inconnu">Boss: Unbekannte</string>
+    <string name="annonce_boss_xy">Boss: X + Y</string>
     <string name="operation_divise">dividieren</string>
 
     <string name="titre_highscores">Top 10 Bestenliste</string>

@@ -64,6 +64,9 @@
     <string name="operation_additionne">additionne</string>
     <string name="operation_soustrait">soustrait</string>
     <string name="operation_multiplie">multiplie</string>
+    <string name="annonce_boss_longue_operation">Boss : longue opération</string>
+    <string name="annonce_boss_inconnu">Boss : inconnu</string>
+    <string name="annonce_boss_xy">Boss : X + Y</string>
     <string name="operation_divise">divise</string>
 
     <string name="titre_highscores">Top 10 highscores</string>

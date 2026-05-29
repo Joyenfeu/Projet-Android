@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -13,6 +14,7 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,8 +39,10 @@ public class CalculatriceActivity extends AppCompatActivity {
     private static final int TEMPS_MINIMUM_SECONDES = 10;
     private static final int TEMPS_NORMAL_DIFFICILE_SECONDES = 12;
     private static final int TEMPS_BOSS_SECONDES = 25;
-    private static final int DELAI_PAUSE_ROUND_MS = 4000;
-    private static final int DELAI_PAUSE_DEMARRAGE_MS = 2500;
+    private static final int DELAI_AVANT_ANNONCE_OPERATION_MS = 2000;
+    private static final int DUREE_ANIMATION_ANNONCE_MS = 600;
+    private static final int DELAI_ANNONCE_CENTRE_MS = 1000;
+    private static final int DELAI_PAUSE_SANS_ANNONCE_MS = 3000;
     private static final int DELAI_ANIMATION_COEUR_MS = 1000;
     private static final int SCORE_ENDLESS_ETOILE = 48;
 
@@ -48,6 +52,8 @@ public class CalculatriceActivity extends AppCompatActivity {
     private TextView textViewTimer;
     private TextView textViewNiveau;
     private TextView textViewPauseRound;
+    private TextView textViewAnnonceOperation;
+    private View vueRacine;
     private EditText editTextReponse;
     private Button boutonValider;
     private Button boutonPasser;
@@ -70,6 +76,7 @@ public class CalculatriceActivity extends AppCompatActivity {
     private int tempsRestantSecondes = TEMPS_DEPART_SECONDES;
     private TypeOperationQuestion typeOperationCourante = TypeOperationQuestion.ADDITION;
     private TypeOperationQuestion typeOperationAnnoncee = null;
+    private int typeBossAnnonce = -1;
     private boolean musiqueJeuActive = false;
     private ModeJeu modeJeu = ModeJeu.ENDLESS;
 
@@ -86,7 +93,8 @@ public class CalculatriceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_calculatrice);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        vueRacine = findViewById(R.id.main);
+        ViewCompat.setOnApplyWindowInsetsListener(vueRacine, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -101,9 +109,11 @@ public class CalculatriceActivity extends AppCompatActivity {
         textViewTimer = findViewById(R.id.textViewTimer);
         textViewNiveau = findViewById(R.id.textViewNiveau);
         textViewPauseRound = findViewById(R.id.textViewPauseRound);
+        textViewAnnonceOperation = findViewById(R.id.textViewAnnonceOperation);
         editTextReponse = findViewById(R.id.editTextReponse);
         boutonValider = findViewById(R.id.boutonValider);
         boutonPasser = findViewById(R.id.boutonPasser);
+        appliquerAmbianceMode();
 
         boutonValider.setOnClickListener(v -> verifierReponse());
         boutonPasser.setOnClickListener(v -> perdreUneVieEtContinuer());
@@ -119,6 +129,17 @@ public class CalculatriceActivity extends AppCompatActivity {
             modeJeu = ModeJeu.DIFFICILE;
         } else {
             modeJeu = ModeJeu.ENDLESS;
+        }
+    }
+
+    private void appliquerAmbianceMode() {
+        if (vueRacine == null) {
+            return;
+        }
+        if (modeJeu == ModeJeu.DIFFICILE) {
+            vueRacine.setBackgroundColor(Color.rgb(255, 225, 225));
+        } else {
+            vueRacine.setBackgroundColor(Color.WHITE);
         }
     }
 
@@ -205,6 +226,8 @@ public class CalculatriceActivity extends AppCompatActivity {
         roundEnPause = false;
         questionBoss = false;
         textViewPauseRound.setVisibility(android.view.View.GONE);
+        textViewAnnonceOperation.setVisibility(android.view.View.GONE);
+        textViewAnnonceOperation.animate().cancel();
         activerSaisie(true);
         demarrerMusiqueJeu();
         afficherPauseAvantQuestion(getString(R.string.message_debut_partie_mode, getNomModeJeu()), true);
@@ -255,6 +278,8 @@ public class CalculatriceActivity extends AppCompatActivity {
         roundEnPause = false;
         activerSaisie(true);
         textViewPauseRound.setVisibility(android.view.View.GONE);
+        textViewAnnonceOperation.setVisibility(android.view.View.GONE);
+        textViewAnnonceOperation.animate().cancel();
 
         questionBoss = estNiveauBoss();
         if (questionBoss) {
@@ -355,19 +380,25 @@ public class CalculatriceActivity extends AppCompatActivity {
         return operations;
     }
 
-    private void genererCalculBoss() {
-        int typeBoss;
+    private int choisirTypeBoss() {
+        if (typeBossAnnonce >= 0) {
+            return typeBossAnnonce;
+        }
         if (modeJeu == ModeJeu.CLASSIQUE) {
             if (niveau == 10) {
-                typeBoss = 1;
-            } else if (niveau == 20) {
-                typeBoss = 2;
-            } else {
-                typeBoss = 0;
+                return 1;
             }
-        } else {
-            typeBoss = random.nextInt(3);
+            if (niveau == 20) {
+                return 2;
+            }
+            return 0;
         }
+        return random.nextInt(3);
+    }
+
+    private void genererCalculBoss() {
+        int typeBoss = choisirTypeBoss();
+        typeBossAnnonce = -1;
 
         switch (typeBoss) {
             case 0:
@@ -555,10 +586,12 @@ public class CalculatriceActivity extends AppCompatActivity {
         String prochainMessageOperation;
         if (estNiveauBoss()) {
             typeOperationAnnoncee = null;
-            prochainMessageOperation = getString(R.string.message_type_boss);
+            typeBossAnnonce = choisirTypeBoss();
+            prochainMessageOperation = getMessageAnnonceBoss(typeBossAnnonce);
         } else {
+            typeBossAnnonce = -1;
             typeOperationAnnoncee = choisirTypeOperationNormale();
-            prochainMessageOperation = getString(R.string.message_type_operation, getNomTypeOperation(typeOperationAnnoncee));
+            prochainMessageOperation = getNomTypeOperation(typeOperationAnnoncee);
         }
 
         StringBuilder message = new StringBuilder();
@@ -572,7 +605,6 @@ public class CalculatriceActivity extends AppCompatActivity {
         if (estNiveauBoss()) {
             message.append("\n").append(getString(R.string.message_entree_boss));
         }
-        message.append("\n\n").append(prochainMessageOperation);
 
         textViewPauseRound.setText(message.toString());
         textViewPauseRound.setAlpha(0f);
@@ -581,7 +613,54 @@ public class CalculatriceActivity extends AppCompatActivity {
         textViewOperation.setText("");
         editTextReponse.setText("");
 
-        handler.postDelayed(this::genererCalcul, demarrage ? DELAI_PAUSE_DEMARRAGE_MS : DELAI_PAUSE_ROUND_MS);
+        handler.postDelayed(() -> animerAnnonceOperation(prochainMessageOperation), DELAI_AVANT_ANNONCE_OPERATION_MS);
+    }
+
+    private void animerAnnonceOperation(String messageAnnonce) {
+        if (partieTerminee || !roundEnPause) {
+            return;
+        }
+        if (messageAnnonce == null || messageAnnonce.isEmpty()) {
+            handler.postDelayed(this::genererCalcul, DELAI_PAUSE_SANS_ANNONCE_MS);
+            return;
+        }
+
+        int largeurEcran = getResources().getDisplayMetrics().widthPixels;
+        textViewAnnonceOperation.animate().cancel();
+        textViewAnnonceOperation.setText(messageAnnonce);
+        textViewAnnonceOperation.setAlpha(1f);
+        textViewAnnonceOperation.setVisibility(android.view.View.VISIBLE);
+        textViewAnnonceOperation.setTranslationX(largeurEcran);
+
+        textViewAnnonceOperation.animate()
+                .translationX(0f)
+                .setDuration(DUREE_ANIMATION_ANNONCE_MS)
+                .withEndAction(() -> handler.postDelayed(() -> {
+                    if (partieTerminee || !roundEnPause) {
+                        return;
+                    }
+                    textViewAnnonceOperation.animate()
+                            .translationX(-largeurEcran)
+                            .setDuration(DUREE_ANIMATION_ANNONCE_MS)
+                            .withEndAction(() -> {
+                                textViewAnnonceOperation.setVisibility(android.view.View.GONE);
+                                genererCalcul();
+                            })
+                            .start();
+                }, DELAI_ANNONCE_CENTRE_MS))
+                .start();
+    }
+
+    private String getMessageAnnonceBoss(int typeBoss) {
+        switch (typeBoss) {
+            case 1:
+                return getString(R.string.annonce_boss_inconnu);
+            case 2:
+                return getString(R.string.annonce_boss_xy);
+            case 0:
+            default:
+                return getString(R.string.annonce_boss_longue_operation);
+        }
     }
 
     private String getMessageMiniBoss() {
