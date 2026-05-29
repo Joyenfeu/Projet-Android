@@ -2,6 +2,23 @@
 <resources>
     <string name="titre_menu_principal">Hauptmenü</string>
     <string name="text_bouton_calculatrice">Spielen</string>
+
+    <string name="text_bouton_endless">Endlos-Modus</string>
+    <string name="text_bouton_classique">Klassischer Modus</string>
+    <string name="text_bouton_difficile">Schwerer Modus</string>
+    <string name="text_bouton_difficile_bloque">Schwerer Modus 🔒</string>
+    <string name="format_etoiles">Profil: %1$s</string>
+    <string name="format_etoiles_preview">Profil: ☆☆☆</string>
+    <string name="nom_mode_endless">Endlos</string>
+    <string name="nom_mode_classique">Klassisch</string>
+    <string name="nom_mode_difficile">Schwer</string>
+    <string name="message_debut_partie_mode">Mach dich bereit! Modus %1$s.</string>
+    <string name="message_miniboss">MINIBOSS! Eine neue Rechenart wird hinzugefügt.</string>
+    <string name="message_miniboss_soustraction">MINIBOSS! Subtraktion wird hinzugefügt.</string>
+    <string name="message_miniboss_multiplication">MINIBOSS! Multiplikation wird hinzugefügt.</string>
+    <string name="message_miniboss_division">MINIBOSS! Division wird hinzugefügt.</string>
+    <string name="titre_victoire">Sieg!</string>
+    <string name="message_victoire">Modus geschafft! Dein Punktestand ist %1$d. Gib deinen Namen ein, um ihn zu speichern.</string>
     <string name="text_bouton_historique">Bestenliste</string>
 
     <string name="format_vies">Leben: %1$d</string>

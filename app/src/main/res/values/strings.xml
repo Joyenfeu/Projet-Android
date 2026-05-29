@@ -3,6 +3,23 @@
 
     <string name="titre_menu_principal">Menu principal</string>
     <string name="text_bouton_calculatrice">Jouer</string>
+
+    <string name="text_bouton_endless">Mode endless</string>
+    <string name="text_bouton_classique">Mode classique</string>
+    <string name="text_bouton_difficile">Mode difficile</string>
+    <string name="text_bouton_difficile_bloque">Mode difficile 🔒</string>
+    <string name="format_etoiles">Profil : %1$s</string>
+    <string name="format_etoiles_preview">Profil : ☆☆☆</string>
+    <string name="nom_mode_endless">Endless</string>
+    <string name="nom_mode_classique">Classique</string>
+    <string name="nom_mode_difficile">Difficile</string>
+    <string name="message_debut_partie_mode">Préparez-vous ! Mode %1$s.</string>
+    <string name="message_miniboss">MINIBOSS ! Une nouvelle opération est ajoutée.</string>
+    <string name="message_miniboss_soustraction">MINIBOSS ! La soustraction est ajoutée.</string>
+    <string name="message_miniboss_multiplication">MINIBOSS ! La multiplication est ajoutée.</string>
+    <string name="message_miniboss_division">MINIBOSS ! La division est ajoutée.</string>
+    <string name="titre_victoire">Victoire !</string>
+    <string name="message_victoire">Mode terminé ! Votre score est de %1$d. Entrez votre nom pour l’enregistrer.</string>
     <string name="text_bouton_historique">Highscores</string>
 
     <string name="format_operation" translatable="false">%1$d %2$s %3$d = ?</string>
