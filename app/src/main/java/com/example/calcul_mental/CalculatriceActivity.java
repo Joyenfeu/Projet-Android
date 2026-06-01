@@ -87,6 +87,7 @@ public class CalculatriceActivity extends AppCompatActivity {
     private TypeOperationQuestion typeOperationAnnoncee = null;
     private int typeBossAnnonce = -1;
     private boolean musiqueJeuActive = false;
+    private boolean musiqueChronoUrgence = false;
     private boolean defaiteVideoEnCours = false;
     private ModeJeu modeJeu = ModeJeu.ENDLESS;
 
@@ -178,9 +179,13 @@ public class CalculatriceActivity extends AppCompatActivity {
 
     private void demarrerMusiqueJeu() {
         musiqueJeuActive = true;
-        lancerMusique(R.raw.musique_intro, false, () -> {
-            if (!partieTerminee && musiqueJeuActive) demarrerMusiqueBoucle();
-        });
+        if (estModeChrono()) {
+            demarrerMusiqueChronoIntro();
+        } else {
+            lancerMusique(R.raw.musique_intro, false, () -> {
+                if (!partieTerminee && musiqueJeuActive) demarrerMusiqueBoucle();
+            });
+        }
     }
 
     private void demarrerMusiqueBoucle() {
@@ -188,8 +193,45 @@ public class CalculatriceActivity extends AppCompatActivity {
         lancerMusique(R.raw.musique_loop, true, null);
     }
 
+    private void demarrerMusiqueChronoIntro() {
+        musiqueChronoUrgence = false;
+        lancerMusique(R.raw.musique_chrono_intro, false, () -> {
+            if (!partieTerminee && musiqueJeuActive && estModeChrono()) {
+                if (tempsRestantSecondes < 30) demarrerMusiqueChronoUrgence();
+                else demarrerMusiqueChronoBoucleNormale();
+            }
+        });
+    }
+
+    private void demarrerMusiqueChronoBoucleNormale() {
+        if (!musiqueJeuActive || partieTerminee || !estModeChrono()) return;
+        musiqueChronoUrgence = false;
+        lancerMusique(R.raw.musique_chrono_loop, true, null);
+    }
+
+    private void demarrerMusiqueChronoUrgence() {
+        if (!musiqueJeuActive || partieTerminee || !estModeChrono()) return;
+        musiqueChronoUrgence = true;
+        lancerMusique(R.raw.musique_chrono_urgence, false, () -> {
+            if (!partieTerminee && musiqueJeuActive && estModeChrono()) {
+                if (tempsRestantSecondes >= 45) demarrerMusiqueChronoBoucleNormale();
+                else demarrerMusiqueChronoUrgence();
+            }
+        });
+    }
+
+    private void actualiserMusiqueChronoSelonTimer() {
+        if (!estModeChrono() || !musiqueJeuActive || partieTerminee) return;
+        if (tempsRestantSecondes < 30 && !musiqueChronoUrgence) {
+            demarrerMusiqueChronoUrgence();
+        }
+        // Quand le joueur remonte à 45 secondes ou plus, la musique d'urgence
+        // attend la fin de sa boucle courte avant de revenir à la boucle normale.
+    }
+
     private void demarrerMusiqueFinPartie() {
         musiqueJeuActive = false;
+        musiqueChronoUrgence = false;
         lancerMusique(R.raw.musique_game_over, false, null);
     }
 
@@ -201,7 +243,14 @@ public class CalculatriceActivity extends AppCompatActivity {
         mediaPlayer.setOnCompletionListener(mp -> { if (actionFin != null) handler.post(actionFin); });
         mediaPlayer.setOnErrorListener((mp, what, extra) -> {
             libererLecteurActuel();
-            if (musiqueJeuActive && !partieTerminee) demarrerMusiqueBoucle();
+            if (musiqueJeuActive && !partieTerminee) {
+                if (estModeChrono()) {
+                    if (tempsRestantSecondes < 30 || musiqueChronoUrgence) demarrerMusiqueChronoUrgence();
+                    else demarrerMusiqueChronoBoucleNormale();
+                } else {
+                    demarrerMusiqueBoucle();
+                }
+            }
             return true;
         });
         try { mediaPlayer.start(); } catch (IllegalStateException ignored) { libererLecteurActuel(); }
@@ -209,6 +258,7 @@ public class CalculatriceActivity extends AppCompatActivity {
 
     private void arreterMusique() {
         musiqueJeuActive = false;
+        musiqueChronoUrgence = false;
         libererLecteurActuel();
     }
 
@@ -445,6 +495,7 @@ public class CalculatriceActivity extends AppCompatActivity {
                 @Override public void onTick(long millisUntilFinished) {
                     tempsRestantSecondes = (int) Math.ceil(millisUntilFinished / 1000.0);
                     majAffichageScoreViesTimer();
+                    actualiserMusiqueChronoSelonTimer();
                 }
                 @Override public void onFinish() {
                     tempsRestantSecondes = 0;
@@ -499,6 +550,7 @@ public class CalculatriceActivity extends AppCompatActivity {
         score++;
         if (estModeChrono()) {
             tempsRestantSecondes += bossVaincu ? BONUS_CHRONO_BOSS : BONUS_CHRONO_NORMAL;
+            actualiserMusiqueChronoSelonTimer();
             Toast.makeText(this, getString(R.string.format_temps_bonus, bossVaincu ? BONUS_CHRONO_BOSS : BONUS_CHRONO_NORMAL), Toast.LENGTH_SHORT).show();
             if (estModeChrono50Rounds() && score >= 50) { terminerPartie(true); return; }
             niveau = score + 1;
@@ -523,6 +575,7 @@ public class CalculatriceActivity extends AppCompatActivity {
         if (estModeChrono()) {
             arreterTimer();
             tempsRestantSecondes = Math.max(0, tempsRestantSecondes - MALUS_CHRONO);
+            actualiserMusiqueChronoSelonTimer();
             Toast.makeText(this, getString(R.string.format_temps_malus, MALUS_CHRONO), Toast.LENGTH_SHORT).show();
             if (tempsRestantSecondes <= 0) { terminerPartieChronoParTemps(); return; }
             if (questionBoss) {
@@ -815,7 +868,13 @@ public class CalculatriceActivity extends AppCompatActivity {
         if (!partieTerminee && !roundEnPause && textViewOperation != null && countDownTimer == null
                 && textViewOperation.getText() != null && textViewOperation.getText().length() > 0) {
             demarrerTimerQuestion();
-            demarrerMusiqueBoucle();
+            musiqueJeuActive = true;
+            if (estModeChrono()) {
+                if (tempsRestantSecondes < 30) demarrerMusiqueChronoUrgence();
+                else demarrerMusiqueChronoBoucleNormale();
+            } else {
+                demarrerMusiqueBoucle();
+            }
         }
     }
 
