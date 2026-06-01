@@ -16,10 +16,14 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.List;
 
 public class HistoriqueActivity extends AppCompatActivity {
+    public static final String EXTRA_CATEGORIE_SCORE = "categorie_score";
+
     private LinearLayout conteneurScores;
     private TextView textViewAucunScore;
+    private TextView textViewTitreHighscores;
     private Button boutonRetourMenu;
     private ScoreDatabaseHelper scoreDatabaseHelper;
+    private String categorieScore = ScoreDatabaseHelper.CATEGORIE_STANDARD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +36,20 @@ public class HistoriqueActivity extends AppCompatActivity {
             return insets;
         });
 
+        String categorie = getIntent().getStringExtra(EXTRA_CATEGORIE_SCORE);
+        if (ScoreDatabaseHelper.CATEGORIE_CHRONO.equals(categorie)) {
+            categorieScore = ScoreDatabaseHelper.CATEGORIE_CHRONO;
+        }
+
+        textViewTitreHighscores = findViewById(R.id.textViewTitreHighscores);
         conteneurScores = findViewById(R.id.conteneurScores);
         textViewAucunScore = findViewById(R.id.textViewAucunScore);
         boutonRetourMenu = findViewById(R.id.boutonRetourMenu);
         scoreDatabaseHelper = new ScoreDatabaseHelper(this);
+
+        textViewTitreHighscores.setText(ScoreDatabaseHelper.CATEGORIE_CHRONO.equals(categorieScore)
+                ? R.string.titre_highscores_chrono
+                : R.string.titre_highscores);
 
         boutonRetourMenu.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
@@ -48,7 +62,7 @@ public class HistoriqueActivity extends AppCompatActivity {
     }
 
     private void afficherScores() {
-        List<ScoreDatabaseHelper.Score> scores = scoreDatabaseHelper.recupererTopScores(10);
+        List<ScoreDatabaseHelper.Score> scores = scoreDatabaseHelper.recupererTopScores(10, categorieScore);
         conteneurScores.removeAllViews();
 
         if (scores.isEmpty()) {

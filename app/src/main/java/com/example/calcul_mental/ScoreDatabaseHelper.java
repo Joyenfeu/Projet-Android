@@ -11,12 +11,16 @@ import java.util.List;
 
 public class ScoreDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "scores.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
+
+    public static final String CATEGORIE_STANDARD = "standard";
+    public static final String CATEGORIE_CHRONO = "chrono";
 
     private static final String TABLE_SCORES = "scores";
     private static final String COL_ID = "id";
     private static final String COL_NOM = "nom";
     private static final String COL_SCORE = "score";
+    private static final String COL_CATEGORIE = "categorie";
     private static final String COL_DATE = "date_creation";
 
     public ScoreDatabaseHelper(Context context) {
@@ -29,34 +33,45 @@ public class ScoreDatabaseHelper extends SQLiteOpenHelper {
                 COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COL_NOM + " TEXT NOT NULL, " +
                 COL_SCORE + " INTEGER NOT NULL, " +
+                COL_CATEGORIE + " TEXT NOT NULL DEFAULT '" + CATEGORIE_STANDARD + "', " +
                 COL_DATE + " INTEGER NOT NULL" +
                 ")");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCORES);
-        onCreate(db);
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE " + TABLE_SCORES + " ADD COLUMN " + COL_CATEGORIE + " TEXT NOT NULL DEFAULT '" + CATEGORIE_STANDARD + "'");
+        }
     }
 
     public void ajouterScore(String nom, int score) {
+        ajouterScore(nom, score, CATEGORIE_STANDARD);
+    }
+
+    public void ajouterScore(String nom, int score, String categorie) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COL_NOM, nom);
         values.put(COL_SCORE, score);
+        values.put(COL_CATEGORIE, categorie == null ? CATEGORIE_STANDARD : categorie);
         values.put(COL_DATE, System.currentTimeMillis());
         db.insert(TABLE_SCORES, null, values);
         db.close();
     }
 
     public List<Score> recupererTopScores(int limite) {
+        return recupererTopScores(limite, CATEGORIE_STANDARD);
+    }
+
+    public List<Score> recupererTopScores(int limite, String categorie) {
         List<Score> scores = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(
                 TABLE_SCORES,
                 new String[]{COL_NOM, COL_SCORE},
-                null,
-                null,
+                COL_CATEGORIE + " = ?",
+                new String[]{categorie == null ? CATEGORIE_STANDARD : categorie},
                 null,
                 null,
                 COL_SCORE + " DESC, " + COL_DATE + " ASC",

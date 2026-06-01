@@ -18,9 +18,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textViewEtoilesChrono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/format_etoiles_chrono_preview"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/bouton_page_gauche"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:text="@string/fleche_gauche"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/bouton_page_droite"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:text="@string/fleche_droite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
+        android:id="@+id/panelModesVies"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,6 +96,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/text_bouton_historique" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/panelModesChrono"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:gravity="center"
+            android:text="@string/titre_menu_chrono"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/bouton_chrono_fredbear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/text_bouton_chrono_fredbear" />
+
+        <Button
+            android:id="@+id/bouton_chrono_nightmare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/text_bouton_chrono_nightmare_bloque" />
+
+        <Button
+            android:id="@+id/bouton_chrono_endless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/text_bouton_chrono_endless" />
+
+        <Button
+            android:id="@+id/bouton_historique_chrono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_bouton_historique_chrono" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

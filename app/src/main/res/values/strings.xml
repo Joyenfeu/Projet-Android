@@ -88,4 +88,25 @@
     <string name="text_bouton_substract" translatable="false">-</string>
     <string name="text_bouton_multiply" translatable="false">x</string>
     <string name="text_bouton_divide" translatable="false">/</string>
+
+    <string name="titre_menu_chrono">Contre la montre</string>
+    <string name="text_bouton_chrono_fredbear">Contre Fredbear</string>
+    <string name="text_bouton_chrono_nightmare">Contre Nightmare</string>
+    <string name="text_bouton_chrono_nightmare_bloque">Contre Nightmare 🔒</string>
+    <string name="text_bouton_chrono_endless">Endless chrono</string>
+    <string name="text_bouton_historique_chrono">Highscores chrono</string>
+    <string name="fleche_droite" translatable="false">›</string>
+    <string name="fleche_gauche" translatable="false">‹</string>
+    <string name="format_etoiles_chrono">Chrono : %1$s</string>
+    <string name="format_etoiles_chrono_preview">Chrono : ☆☆☆</string>
+    <string name="nom_mode_chrono_fredbear">Contre Fredbear</string>
+    <string name="nom_mode_chrono_nightmare">Contre Nightmare</string>
+    <string name="nom_mode_chrono_endless">Endless chrono</string>
+    <string name="format_temps_bonus">+%1$d s</string>
+    <string name="format_temps_malus">-%1$d s</string>
+    <string name="temps_ecoule_chrono">Temps écoulé !</string>
+    <string name="message_victoire_chrono">Mode terminé ! Votre score est de %1$d. Entrez votre nom pour l’enregistrer.</string>
+    <string name="titre_highscores_chrono">Top 10 highscores chrono</string>
+    <string name="table_standard" translatable="false">standard</string>
+    <string name="table_chrono" translatable="false">chrono</string>
 </resources>

@@ -67,4 +67,21 @@
     <string name="aucun_score">Noch keine Punkte gespeichert.</string>
     <string name="format_ligne_score">%1$d. %2$s — %3$d</string>
     <string name="bouton_retour_menu">Zurück zum Menü</string>
+
+    <string name="titre_menu_chrono">Gegen die Uhr</string>
+    <string name="text_bouton_chrono_fredbear">Gegen Fredbear</string>
+    <string name="text_bouton_chrono_nightmare">Gegen Nightmare</string>
+    <string name="text_bouton_chrono_nightmare_bloque">Gegen Nightmare 🔒</string>
+    <string name="text_bouton_chrono_endless">Endlos-Zeitmodus</string>
+    <string name="text_bouton_historique_chrono">Zeit-Bestenliste</string>
+    <string name="format_etoiles_chrono">Zeitmodus: %1$s</string>
+    <string name="format_etoiles_chrono_preview">Zeitmodus: ☆☆☆</string>
+    <string name="nom_mode_chrono_fredbear">Gegen Fredbear</string>
+    <string name="nom_mode_chrono_nightmare">Gegen Nightmare</string>
+    <string name="nom_mode_chrono_endless">Endlos-Zeitmodus</string>
+    <string name="format_temps_bonus">+%1$d s</string>
+    <string name="format_temps_malus">-%1$d s</string>
+    <string name="temps_ecoule_chrono">Zeit abgelaufen!</string>
+    <string name="message_victoire_chrono">Modus geschafft! Dein Punktestand ist %1$d. Gib deinen Namen ein, um ihn zu speichern.</string>
+    <string name="titre_highscores_chrono">Top 10 Zeit-Bestenliste</string>
 </resources>
