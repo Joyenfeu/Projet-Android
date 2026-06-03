@@ -65,6 +65,7 @@ public class CalculatriceActivity extends AppCompatActivity {
     private EditText editTextReponse;
     private Button boutonValider;
     private Button boutonPasser;
+    private View conteneurVideoDefaite;
     private VideoView videoViewDefaite;
 
     private final Random random = new Random();
@@ -124,7 +125,11 @@ public class CalculatriceActivity extends AppCompatActivity {
         editTextReponse = findViewById(R.id.editTextReponse);
         boutonValider = findViewById(R.id.boutonValider);
         boutonPasser = findViewById(R.id.boutonPasser);
+        conteneurVideoDefaite = findViewById(R.id.conteneurVideoDefaite);
         videoViewDefaite = findViewById(R.id.videoViewDefaite);
+        if (videoViewDefaite != null) {
+            videoViewDefaite.setZOrderOnTop(true);
+        }
         appliquerAmbianceMode();
 
         boutonValider.setOnClickListener(v -> verifierReponse());
@@ -282,6 +287,7 @@ public class CalculatriceActivity extends AppCompatActivity {
             videoViewDefaite.stopPlayback();
             videoViewDefaite.setVisibility(View.GONE);
         }
+        if (conteneurVideoDefaite != null) conteneurVideoDefaite.setVisibility(View.GONE);
         score = 0;
         niveau = 1;
         vies = modeJeu == ModeJeu.DIFFICILE ? VIES_DEPART_DIFFICILE : VIES_DEPART;
@@ -751,24 +757,39 @@ public class CalculatriceActivity extends AppCompatActivity {
         defaiteVideoEnCours = true;
         int resId = modeJeu == ModeJeu.CHRONO_NIGHTMARE ? R.raw.nightmare_defaite : R.raw.fredbear_defaite;
         Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + resId);
+
+        if (conteneurVideoDefaite != null) {
+            conteneurVideoDefaite.setVisibility(View.VISIBLE);
+            conteneurVideoDefaite.bringToFront();
+        }
         videoViewDefaite.setVisibility(View.VISIBLE);
+        videoViewDefaite.bringToFront();
+        videoViewDefaite.requestFocus();
+        videoViewDefaite.setZOrderOnTop(true);
         videoViewDefaite.setVideoURI(uri);
+
         videoViewDefaite.setOnPreparedListener(mp -> {
             mp.setVolume(1.0f, 1.0f);
             mp.setScreenOnWhilePlaying(true);
+            try {
+                videoViewDefaite.start();
+            } catch (IllegalStateException ignored) {}
         });
         videoViewDefaite.setOnCompletionListener(mp -> {
+            videoViewDefaite.stopPlayback();
             videoViewDefaite.setVisibility(View.GONE);
+            if (conteneurVideoDefaite != null) conteneurVideoDefaite.setVisibility(View.GONE);
             defaiteVideoEnCours = false;
             terminerPartie(false);
         });
         videoViewDefaite.setOnErrorListener((mp, what, extra) -> {
+            videoViewDefaite.stopPlayback();
             videoViewDefaite.setVisibility(View.GONE);
+            if (conteneurVideoDefaite != null) conteneurVideoDefaite.setVisibility(View.GONE);
             defaiteVideoEnCours = false;
             terminerPartie(false);
             return true;
         });
-        videoViewDefaite.start();
     }
 
     private void terminerPartie(boolean victoire) {
